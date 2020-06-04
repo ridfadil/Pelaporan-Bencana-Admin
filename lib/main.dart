@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'DWS Nindya Karya',
+      title: 'Admin Pelaporan Bencana',
       theme: AppsTheme.nindyaTheme,
       home: SplashScreen(),
       routes: {
