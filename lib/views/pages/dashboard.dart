@@ -4,10 +4,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pelaporanbencanaadmin/utils/helper/DialogUtils.dart';
 import 'package:pelaporanbencanaadmin/utils/values/dimens.dart';
 import 'package:pelaporanbencanaadmin/views/pages/about.dart';
+import 'package:pelaporanbencanaadmin/views/pages/detail_user.dart';
 import 'package:pelaporanbencanaadmin/views/pages/list_accident_report.dart';
+import 'package:pelaporanbencanaadmin/views/pages/list_user.dart';
 import 'package:pelaporanbencanaadmin/views/pages/user_profile.dart';
-
-import 'create_accident_report.dart';
 
 class Dashboard extends StatelessWidget {
   List<String> imageLinks = [
@@ -134,14 +134,14 @@ class Dashboard extends StatelessWidget {
                                   child: Column(
                                     children: <Widget>[
                                       Icon(
-                                        FontAwesomeIcons.carCrash,
+                                        FontAwesomeIcons.user,
                                         size: 40.0,
                                         color: Colors.orange,
                                       ),
                                       Container(
                                           margin: EdgeInsets.only(top: 10),
                                           child: Text(
-                                              "Buat Pelaporan Kecelakaan")),
+                                              "Daftar User")),
                                     ],
                                   ),
                                 ),
@@ -152,7 +152,7 @@ class Dashboard extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          CreateAccidentReport()));
+                                          ListUser()));
                             },
                           ),
                         ),
@@ -171,14 +171,14 @@ class Dashboard extends StatelessWidget {
                                   child: Column(
                                     children: <Widget>[
                                       Icon(
-                                        FontAwesomeIcons.history,
+                                        FontAwesomeIcons.carCrash,
                                         size: 40.0,
                                         color: Colors.orange,
                                       ),
                                       Container(
                                           margin: EdgeInsets.only(top: 10),
                                           child: Text(
-                                            "History pelaporan saya",
+                                            "Daftar pelaporan kecelakaan",
                                             textAlign: TextAlign.center,
                                           )),
                                     ],

@@ -24,12 +24,12 @@ class ViewUtils {
     );
   }
 
-  static buildFlushbarError(BuildContext context,String error,{VoidCallback onPressed}) {
+  /*static buildFlushbarError(BuildContext context,String error,{VoidCallback onPressed}) {
     return CommonUtils.showFloatingFlushbar(
         context,
         "No Internet",
         "Silakan Periksa koneksi internet anda");
-  }
+  }*/
 
   static Widget buildErrorWidget(BuildContext context,String error,{VoidCallback onPressed}) {
     return Container(

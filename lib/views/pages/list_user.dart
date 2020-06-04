@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:pelaporanbencanaadmin/views/pages/i_accident.dart';
+import 'package:pelaporanbencanaadmin/views/pages/i_user.dart';
 
-class LIstAccidentReport extends StatefulWidget {
+class ListUser extends StatefulWidget {
   @override
-  _LIstAccidentReportState createState() => _LIstAccidentReportState();
+  _ListUserState createState() => _ListUserState();
 }
 
-class _LIstAccidentReportState extends State<LIstAccidentReport> {
+class _ListUserState extends State<ListUser> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("History Laporan Saya",style: TextStyle(color: Colors.white),),
+        title: Text("List User",style: TextStyle(color: Colors.white),),
         backgroundColor: Colors.redAccent,
       ),
       body: Stack(
@@ -52,7 +53,7 @@ class _LIstAccidentReportState extends State<LIstAccidentReport> {
           ),
           Container(
               margin: EdgeInsets.only(top: 70),
-              child: ItemAccident()),
+              child: ItemUser()),
         ],
       ),
     );

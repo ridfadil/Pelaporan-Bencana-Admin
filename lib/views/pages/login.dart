@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:pelaporanbencanaadmin/utils/components/custom_clipper.dart';
 import 'package:pelaporanbencanaadmin/utils/values/colors.dart';
 import 'package:pelaporanbencanaadmin/views/pages/dashboard.dart';
-import 'package:pelaporanbencanaadmin/views/pages/register.dart';
 
 class LoginUser extends StatefulWidget {
   @override
@@ -112,7 +111,7 @@ class _LoginUserState extends State<LoginUser> {
                       ),
                       Center(
                         child: Text(
-                          "Pelaporan Kecelakaan",
+                          "Admin Pelaporan Kecelakaan",
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w700,
@@ -218,14 +217,14 @@ class _LoginUserState extends State<LoginUser> {
                 ),
               )),
           SizedBox(height: 20,),
-          Center(
+        /*  Center(
             child: InkWell(
                 child: Text("Registrasi", style: TextStyle(color: MyColor.badgeColor,fontSize: 12 ,fontWeight: FontWeight.w700),),
               onTap: (){
                 Navigator.push(context,MaterialPageRoute(builder: (context) => Register()));
               },
             ),
-          ),
+          ),*/
           SizedBox(height: 40,),
           /*Row(
             mainAxisAlignment: MainAxisAlignment.center,

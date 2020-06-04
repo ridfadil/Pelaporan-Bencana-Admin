@@ -75,6 +75,9 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                   child: Column(
                     children: <Widget>[
                       Text(
+                        "Admin",
+                        style: TextStyle(fontSize: 20.0, color: color),
+                      ),Text(
                         "Aplikasi Pelaporan",
                         style: TextStyle(fontSize: 20.0, color: color),
                       ),Text(

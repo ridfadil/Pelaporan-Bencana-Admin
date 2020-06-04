@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
@@ -24,7 +23,7 @@ class CommonUtils {
     Fluttertoast.showToast(msg: message, toastLength: Toast.LENGTH_LONG);
   }
 
-  ///snackbar
+/*  ///snackbar
   static void showFloatingFlushbar(BuildContext context, String title, String message) {
     Flushbar(
       margin: EdgeInsets.all(10),
@@ -46,7 +45,7 @@ class CommonUtils {
       title: title,
       message: message,
     )..show(context);
-  }
+  }*/
 
   ///Untuk tanggal
   static Future<String> datePicker(BuildContext context,String toFormat) async {
