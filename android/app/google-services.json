@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "415307877734",
+    "firebase_url": "https://pelaporan-276f4.firebaseio.com",
+    "project_id": "pelaporan-276f4",
+    "storage_bucket": "pelaporan-276f4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:415307877734:android:bbd878019bdce9ee4e0ca7",
+        "android_client_info": {
+          "package_name": "com.dedemuktamar.pelaporan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "415307877734-ki8ql5857f4tqmvs365bju6a8jvioqvr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7Jqbp5W0uRy1m9z-7-j2w4ulRkeMqXu4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "415307877734-ki8ql5857f4tqmvs365bju6a8jvioqvr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

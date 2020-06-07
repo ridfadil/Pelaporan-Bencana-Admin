@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:pelaporanbencanaadmin/session/constants.dart';
 import 'package:pelaporanbencanaadmin/utils/components/custom_clipper.dart';
 import 'package:pelaporanbencanaadmin/utils/values/colors.dart';
 import 'package:pelaporanbencanaadmin/views/pages/dashboard.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LoginUser extends StatefulWidget {
   @override
@@ -204,15 +206,13 @@ class _LoginUserState extends State<LoginUser> {
                         fontSize: 18),
                   ),
                   onPressed: () {
+                    Firestore.instance.collection('user').document().setData({
+                      '${FirebaseKeys.FB_USER_NAMA}': 'M Farid Padilah',
+                      '${FirebaseKeys.FB_USER_ALAMAT}': 'Kuningan Jawa barat',
+                      '${FirebaseKeys.FB_USER_EMAIL}': 'Farid@gmail.com',
+                      '${FirebaseKeys.FB_USER_NO_TELP}': '0986756543',
+                    });
                     Navigator.push(context,MaterialPageRoute(builder: (context) => Dashboard()));
-                    /*setState(() {
-                      isValidate = true;
-                      if(_email.text.isNotEmpty && _password.text.isNotEmpty) {
-                        ApiService.checkConnection().then((con) {
-                          con? *//*_doLogin()*//* auth_bloc.postLogin(context) : CommonUtils.showFloatingFlushbar(context, "No Internet","Silakan aktifkan internet anda");
-                        });
-                      }
-                    });*/
                   },
                 ),
               )),

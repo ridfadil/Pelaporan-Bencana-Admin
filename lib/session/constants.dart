@@ -18,3 +18,10 @@ class SharedPrefKeys {
   static const String STUDENT_ID = "STUDENT_ID";
   static const String FIREBASE_TOKEN = 'FIREBASE_TOKEN';
 }
+
+class FirebaseKeys {
+  static const String FB_USER_NAMA = "nama";
+  static const String FB_USER_NO_TELP = "telp";
+  static const String FB_USER_ALAMAT = "alamat";
+  static const String FB_USER_EMAIL = "email";
+}

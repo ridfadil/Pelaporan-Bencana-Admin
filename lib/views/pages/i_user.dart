@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:pelaporanbencanaadmin/session/constants.dart';
 import 'package:pelaporanbencanaadmin/utils/helper/CommonUtils.dart';
 import 'package:pelaporanbencanaadmin/views/pages/detail_accident.dart';
 import 'package:pelaporanbencanaadmin/views/pages/detail_user.dart';
 import 'm_genral_list.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:expandable/expandable.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ItemUser extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _ItemUserState();
 }
 
-class _ItemUserState
-    extends State<ItemUser> {
+class _ItemUserState extends State<ItemUser> {
   String _radioValue;
   String choice;
   String choiceAlamatPengirimSurat;
@@ -24,29 +27,53 @@ class _ItemUserState
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 10),
-      child: ListView.builder(
-        scrollDirection: Axis.vertical,
-        shrinkWrap: true,
-        itemCount: listGeneral.length,
-        physics: const AlwaysScrollableScrollPhysics(),
-        itemBuilder: (BuildContext context, int index) {
-          return InkWell(
-            child: makeList(listGeneral[index], index, context),
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => DetailUser(generaelModel: listGeneral[index],)));
-            },
-          );
-        },
-      ),
+    return StreamBuilder<QuerySnapshot>(
+        stream: Firestore.instance.collection('user').snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError)
+            return new Text('Error: ${snapshot.error}');
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting:
+              return new Text('Loading...');
+            default:
+              return Container(
+                margin: EdgeInsets.only(bottom: 10),
+                child: ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: snapshot.data.documents.length,
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  itemBuilder: (BuildContext context, int index) {
+                    return InkWell(
+                      child: makeList(
+                          listGeneral[index], index, context, snapshot),
+                      onTap: () {
+                        /*Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => DetailUser(generaelModel: listGeneral[index],)));*/
+                      },
+                    );
+                  },
+                ),
+              );
+              /*ListView(
+                children: snapshot.data.documents.map((
+                    DocumentSnapshot document) {
+                  return new ListTile(
+                    title: new Text(document['${FirebaseKeys.FB_USER_NAMA}']),
+                    subtitle: new Text(
+                        document['${FirebaseKeys.FB_USER_ALAMAT}']),
+                  );
+                }).toList(),
+              );*/
+          }
+        }
     );
   }
 
-  makeList(GeneralListModel general, int index, BuildContext context) =>
+  makeList(GeneralListModel general, int index, BuildContext context,
+      AsyncSnapshot<QuerySnapshot> snapshot) =>
       Container(
         //margin: EdgeInsets.only(left:8,right: 8,top: 2, bottom: 2),
         child: Column(
@@ -60,7 +87,7 @@ class _ItemUserState
                 padding: EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 2),
                 child: Column(
                   children: <Widget>[
-                    Container(
+                    /*Container(
                       margin: EdgeInsets.all(4),
                       height: 20,
                       alignment: Alignment.centerRight,
@@ -72,51 +99,116 @@ class _ItemUserState
                         ),
                         onPressed: () {},
                       ),
-                    ),
-                    Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Expanded(
-                          flex: 1,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                    ),*/
+                    ExpandablePanel(
+                      header: Container(
+                          margin: EdgeInsets.all(10),
+                          child: Row(
                             children: <Widget>[
-                              Text("Nama   : ${general.jenisKecelakaan}"),
-                              SizedBox(height: 2),
-                              Text("Alamat : ${general.tanggalKecelakaan}"),
+                              Text("Nomor ${index + 1}",
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold)),
                             ],
-                          ),
+                          )),
+                      tapHeaderToExpand: true,
+                      hasIcon: true,
+                      // <-- Dri
+                      iconColor: Colors.redAccent,
+                      collapsed: ExpandableButton(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Expanded(
+                              flex: 1,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text("Nama : " +
+                                      snapshot.data.documents[index]
+                                          .data['${FirebaseKeys
+                                          .FB_USER_NAMA}']),
+                                  SizedBox(height: 2),
+                                  Text("Alamat : " +
+                                      snapshot.data.documents[index]
+                                          .data['${FirebaseKeys
+                                          .FB_USER_ALAMAT}']),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
-                        /*Expanded(
-                          flex: 1,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: <Widget>[
-                              FlatButton(
-                                color: Colors.redAccent,
-                                child: Text('Setuju',style: TextStyle(color: Colors.white),),
-                                onPressed: (){},
-                              ),
-                              FlatButton(
-                                color: Colors.red,
-                                child: Text('Tolak',style: TextStyle(color: Colors.white),),
-                                onPressed: (){},
-                              ),
-                            ],
-                          ),
-                        )*/
-                      ],
+                      ),
+                      expanded: Column(
+                          children: [
+                            Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Expanded(
+                                  flex: 1,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment
+                                        .start,
+                                    children: <Widget>[
+                                      Text("Nama : " +
+                                          snapshot.data.documents[index]
+                                              .data['${FirebaseKeys
+                                              .FB_USER_NAMA}']),
+                                      SizedBox(height: 2),
+                                      Text("Alamat : " +
+                                          snapshot.data.documents[index]
+                                              .data['${FirebaseKeys
+                                              .FB_USER_ALAMAT}']),
+                                      SizedBox(height: 2),
+                                      Text("Email : " +
+                                          snapshot.data.documents[index]
+                                              .data['${FirebaseKeys
+                                              .FB_USER_EMAIL}']),
+                                      SizedBox(height: 2),
+                                      Text("No Hp : " +
+                                          snapshot.data.documents[index]
+                                              .data['${FirebaseKeys
+                                              .FB_USER_NO_TELP}']),
+                                      InkWell(
+                                        child: Container(
+                                          color: Colors.redAccent,
+                                          padding: EdgeInsets.all(10),
+                                          margin: EdgeInsets.all(10),
+                                          alignment: Alignment.center,
+                                          child: Icon(
+                                            Icons.phone, color: Colors.white,
+                                            size: 30,),
+                                        ),
+                                        onTap: () {
+                                          launch("tel:${snapshot.data
+                                              .documents[index]
+                                              .data['${FirebaseKeys
+                                              .FB_USER_NO_TELP}']}");
+                                        },
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ]
+                      ),
                     ),
                   ],
                 ),
               ),
             ),
             Container(
-              width: MediaQuery.of(context).size.width,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width,
               height: 1,
               color: Colors.redAccent,
             ),
@@ -124,7 +216,8 @@ class _ItemUserState
         ),
       );
 
-  Widget buildTextField(String title, {bool isDisable = true}) => Container(
+  Widget buildTextField(String title, {bool isDisable = true}) =>
+      Container(
         child: TextFormField(
           keyboardType: TextInputType.multiline,
           maxLines: null,
@@ -137,7 +230,7 @@ class _ItemUserState
             fillColor: Colors.red,
             focusedBorder: OutlineInputBorder(
               borderSide:
-                  BorderSide(color: Colors.redAccent, width: 1),
+              BorderSide(color: Colors.redAccent, width: 1),
             ),
             disabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.grey, width: 1),
@@ -309,8 +402,7 @@ class _ItemUserState
                       ),
                     ],
                   )),
-              onTap: () {
-              },
+              onTap: () {},
             ),
             InkWell(
               child: Container(
