@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pelaporanbencanaadmin/session/constants.dart';
+import 'package:pelaporanbencanaadmin/session/session.dart';
 import 'package:pelaporanbencanaadmin/utils/components/custom_clipper.dart';
+import 'package:pelaporanbencanaadmin/utils/helper/CommonUtils.dart';
+import 'package:pelaporanbencanaadmin/utils/helper/DialogUtils.dart';
 import 'package:pelaporanbencanaadmin/utils/values/colors.dart';
 import 'package:pelaporanbencanaadmin/views/pages/dashboard.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LoginUser extends StatefulWidget {
   @override
@@ -12,30 +15,30 @@ class LoginUser extends StatefulWidget {
 
 
 class _LoginUserState extends State<LoginUser> {
-  final _email = new TextEditingController();
-  final _password = new TextEditingController();
+  final email = new TextEditingController();
+  final password = new TextEditingController();
   bool isValidate;
 
   @override
   void initState() {
     //SystemChrome.setEnabledSystemUIOverlays([]);
     isValidate = false;
-    _email.text = "";
-    _password.text = "";
+    email.text = "";
+    password.text = "";
     super.initState();
   }
 
   @override
   void dispose() {
-    _email.dispose();
-    _password.dispose();
+    email.dispose();
+    password.dispose();
     super.dispose();
   }
 
   Future _doLogin() async {
     /*MyDialog.loading(context,"sedang login...");
     Response response = await ApiService.login(
-        context: context, email: _email.text, password: _password.text);
+        context: context, email: email.text, password: password.text);
     MyDialog.dismiss(context);
     return new Future.delayed(new Duration(milliseconds: 0), () {
       if (response.statusCode == APIResponseCode.SUCCESS) {
@@ -141,7 +144,7 @@ class _LoginUserState extends State<LoginUser> {
               borderRadius: BorderRadius.all(Radius.circular(30)),
               child: TextField(
                 //onChanged: (String value){},
-                controller: _email,
+                controller: email,
                 cursorColor: Colors.lightBlue,
                 decoration: InputDecoration(
                     hintText: "Email",
@@ -168,7 +171,7 @@ class _LoginUserState extends State<LoginUser> {
               elevation: 2.0,
               borderRadius: BorderRadius.all(Radius.circular(30)),
               child: TextField(
-                controller: _password,
+                controller: password,
                 obscureText: true,
                 //onChanged: (String value){},
                 cursorColor: Colors.lightBlue,
@@ -205,21 +208,60 @@ class _LoginUserState extends State<LoginUser> {
                         fontWeight: FontWeight.w700,
                         fontSize: 18),
                   ),
-                  onPressed: () {
-                    Firestore.instance.collection('user').document().setData({
-                      '${FirebaseKeys.FB_USER_NAMA}': 'M Farid Padilah',
-                      '${FirebaseKeys.FB_USER_ALAMAT}': 'Kuningan Jawa barat',
-                      '${FirebaseKeys.FB_USER_EMAIL}': 'Farid@gmail.com',
-                      '${FirebaseKeys.FB_USER_NO_TELP}': '0986756543',
-                    });
-                    Navigator.push(context,MaterialPageRoute(builder: (context) => Dashboard()));
+                  onPressed: () async {
+                    if(password.text.isEmpty){
+                      CommonUtils.showToast("Password Belum diisi");
+                    }else if(email.text.isEmpty){
+                      CommonUtils.showToast("Email Belum diisi");
+                    } else{
+                      MyDialog.loading(context, "Sedang login");
+
+                      bool isThere = false;
+
+                      await Firestore.instance
+                          .collection('user')
+                          .getDocuments()
+                          .then((snapshot) {
+                        for(int i = 0 ; i< snapshot.documents.length;i++){
+                          if(snapshot.documents[i].data["${FirebaseKeys.FB_USER_EMAIL}"] == email.text.toString() && snapshot.documents[i].data["${FirebaseKeys.FB_USER_PASSWORD}"] == password.text.toString() && snapshot.documents[i].data["${FirebaseKeys.FB_USER_ROLE}"] == "1"){
+                            isThere = true;
+                          }
+                        }
+                      });
+
+                      if(isThere){
+                        Firestore.instance
+                            .collection('user')
+                            .where("email", isEqualTo: "${email.text.toString()}")
+                            .where("password", isEqualTo: "${password.text.toString()}")
+                            .snapshots()
+                            .listen((data){
+                          if(data.documents.length > 0){
+                            _setSession(
+                              data.documents[0].data['${FirebaseKeys.FB_USER_EMAIL}'],
+                              data.documents[0].data['${FirebaseKeys.FB_USER_NAMA}'],
+                              data.documents[0].data['${FirebaseKeys.FB_USER_ROLE}'],
+                              data.documents[0].documentID,
+                            );
+                            CommonUtils.showToast("Selamat Datang ${data.documents[0].data['${FirebaseKeys.FB_USER_NAMA}']} :) ");
+                            //MyDialog.dismiss(context);
+                            Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => Dashboard()));
+                          }
+                        });
+                      } else{
+                        CommonUtils.showToast("Email dan Password tidak Valid atau Anda bukan Admin");
+                        isThere = false;
+                      }
+
+                      MyDialog.dismiss(context);
+                    }
                   },
                 ),
               )),
           SizedBox(height: 20,),
-        /*  Center(
+          /*Center(
             child: InkWell(
-                child: Text("Registrasi", style: TextStyle(color: MyColor.badgeColor,fontSize: 12 ,fontWeight: FontWeight.w700),),
+              child: Text("Registrasi", style: TextStyle(color: MyColor.badgeColor,fontSize: 12 ,fontWeight: FontWeight.w700),),
               onTap: (){
                 Navigator.push(context,MaterialPageRoute(builder: (context) => Register()));
               },
@@ -238,6 +280,15 @@ class _LoginUserState extends State<LoginUser> {
     );
 
   }
+
+  void _setSession(String email,String nama, String role, String documentID) {
+    Session.setName(nama);
+    Session.setMail(email);
+    Session.setRole(role);
+    Session.setUserId(documentID);
+    Session.setLoggedIn(true);
+  }
+
   Hero buildLogo() {
     return new Hero(
         tag: "Logo",

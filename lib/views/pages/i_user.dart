@@ -45,8 +45,7 @@ class _ItemUserState extends State<ItemUser> {
                   physics: const AlwaysScrollableScrollPhysics(),
                   itemBuilder: (BuildContext context, int index) {
                     return InkWell(
-                      child: makeList(
-                          listGeneral[index], index, context, snapshot),
+                      child: makeList(index, context, snapshot),
                       onTap: () {
                         /*Navigator.push(
                               context,
@@ -72,7 +71,7 @@ class _ItemUserState extends State<ItemUser> {
     );
   }
 
-  makeList(GeneralListModel general, int index, BuildContext context,
+  makeList(int index, BuildContext context,
       AsyncSnapshot<QuerySnapshot> snapshot) =>
       Container(
         //margin: EdgeInsets.only(left:8,right: 8,top: 2, bottom: 2),

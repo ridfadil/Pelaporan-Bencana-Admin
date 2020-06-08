@@ -89,9 +89,9 @@ class Session {
 
   ///////////////////////    PROFILE   /////////////////////////////////////////////
 
-  static Future<void> setStudentId(int studentId) async {
+  static Future<void> setUserId(String userId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.setInt(SharedPrefKeys.USER_ID, studentId);
+    return prefs.setString(SharedPrefKeys.USER_ID, userId);
   }
 
   static Future<String> getUserId() async {

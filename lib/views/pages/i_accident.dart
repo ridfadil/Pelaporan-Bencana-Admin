@@ -1,52 +1,82 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:pelaporanbencanaadmin/session/constants.dart';
 import 'package:pelaporanbencanaadmin/utils/helper/CommonUtils.dart';
-import 'package:pelaporanbencanaadmin/views/pages/detail_accident.dart';
-
-import 'm_genral_list.dart';
+import 'package:pelaporanbencanaadmin/utils/helper/utility.dart';
 
 class ItemAccident extends StatefulWidget {
+  String idDocument;
+  ItemAccident({Key key, this.idDocument}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => _ItemAccidentState();
 }
 
-class _ItemAccidentState
-    extends State<ItemAccident> {
+
+class _ItemAccidentState extends State<ItemAccident> {
   String _radioValue;
   String choice;
   String choiceAlamatPengirimSurat;
   final _agreementController = new TextEditingController();
   String choiceKompensasi;
+  String idDocument;
 
   @override
   void initState() {
+    idDocument = widget.idDocument;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 10),
-      child: ListView.builder(
-        scrollDirection: Axis.vertical,
-        shrinkWrap: true,
-        itemCount: listGeneral.length,
-        physics: const AlwaysScrollableScrollPhysics(),
-        itemBuilder: (BuildContext context, int index) {
-          return InkWell(
-            child: makeList(listGeneral[index], index, context),
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => DetailAccident(generaelModel: listGeneral[index],)));
-            },
-          );
-        },
-      ),
-    );
+    return StreamBuilder<QuerySnapshot>(
+        stream: Firestore.instance
+            .collection('report')
+            //.where('${FirebaseKeys.FB_REPORT_ID_USER}', isEqualTo: idDocument)
+            .snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) return new Text('Error: ${snapshot.error}');
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting:
+              return new Text('Loading...');
+            default:
+              return Container(
+                margin: EdgeInsets.only(bottom: 10),
+                child: ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: snapshot.data.documents.length,
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  itemBuilder: (BuildContext context, int index) {
+                    return InkWell(
+                      child: makeList(index, context, snapshot),
+                      onTap: () {
+                        /*Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => DetailUser(generaelModel: listGeneral[index],)));*/
+                      },
+                    );
+                  },
+                ),
+              );
+          /*ListView(
+                children: snapshot.data.documents.map((
+                    DocumentSnapshot document) {
+                  return new ListTile(
+                    title: new Text(document['${FirebaseKeys.FB_USER_NAMA}']),
+                    subtitle: new Text(
+                        document['${FirebaseKeys.FB_USER_ALAMAT}']),
+                  );
+                }).toList(),
+              );*/
+          }
+        });
   }
 
-  makeList(GeneralListModel general, int index, BuildContext context) =>
+  makeList(int index, BuildContext context,
+      AsyncSnapshot<QuerySnapshot> snapshot) =>
       Container(
         //margin: EdgeInsets.only(left:8,right: 8,top: 2, bottom: 2),
         child: Column(
@@ -60,58 +90,99 @@ class _ItemAccidentState
                 padding: EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 2),
                 child: Column(
                   children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.all(4),
-                      height: 20,
-                      alignment: Alignment.centerRight,
-                      child: FlatButton(
-                        color: Colors.redAccent,
-                        child: Text(
-                          'Laporan Saya : ',
-                          style: TextStyle(color: Colors.white),
+                    ExpandablePanel(
+                      header: Container(
+                          margin: EdgeInsets.all(10),
+                          child: Row(
+                            children: <Widget>[
+                              Text("Nomor ${index + 1}",
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold)),
+                            ],
+                          )),
+                      tapHeaderToExpand: true,
+                      hasIcon: true,
+                      // <-- Dri
+                      iconColor: Colors.redAccent,
+                      collapsed: ExpandableButton(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Expanded(
+                              flex: 1,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text("Jenis Kecelakaan   : ${snapshot.data.documents[index].data["${FirebaseKeys.FB_REPORT_JENIS_KECELAKAAN}"]}"),
+                                  Text("Nama Pelapor : " +
+                                      snapshot.data.documents[index].data[
+                                      '${FirebaseKeys.FB_USER_NAMA}']),
+                                  SizedBox(height: 2),
+                                  Text("Alamat Pelapor : " +
+                                      snapshot.data.documents[index].data[
+                                      '${FirebaseKeys.FB_USER_ALAMAT}']),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
-                        onPressed: () {},
                       ),
-                    ),
-                    Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Expanded(
-                          flex: 1,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text("Jenis Kecelakaan   : ${general.jenisKecelakaan}"),
-                              SizedBox(height: 2),
-                              Text("Tanggal : ${general.tanggalKecelakaan}"),
-                              SizedBox(height: 2),
-                              Text("Waktu Kecelakaan: ${general.waktuKecelakaan}"),
-                            ],
-                          ),
+                      expanded: Column(children: [
+                        Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Expanded(
+                              flex: 1,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text("Nama Pelapor : " +
+                                      snapshot.data.documents[index].data[
+                                      '${FirebaseKeys.FB_USER_NAMA}']),
+                                  SizedBox(height: 2),
+                                  Text("Alamat Pelapor : " +
+                                      snapshot.data.documents[index].data[
+                                      '${FirebaseKeys.FB_USER_ALAMAT}']),
+                                  SizedBox(height: 2),
+                                  Text("Email : " +
+                                      snapshot.data.documents[index].data[
+                                      '${FirebaseKeys.FB_USER_EMAIL}']),
+                                  SizedBox(height: 2),
+                                  Text("No Hp : " +
+                                      snapshot.data.documents[index].data[
+                                      '${FirebaseKeys.FB_USER_NO_TELP}']),
+                                  SizedBox(height: 2),
+                                  Text(
+                                      "Jenis Kecelakaan   : ${snapshot.data.documents[index].data["${FirebaseKeys.FB_REPORT_JENIS_KECELAKAAN}"]}"),
+                                  SizedBox(height: 2),
+                                  Text(
+                                      "Tanggal : ${snapshot.data.documents[index].data["${FirebaseKeys.FB_REPORT_DATE_KECELAKAAN}"]}"),
+                                  SizedBox(height: 2),
+                                  Text(
+                                      "Waktu Kecelakaan: ${snapshot.data.documents[index].data["${FirebaseKeys.FB_REPORT_TIME_KECELAKAAN}"]}"),
+                                  SizedBox(height: 2),
+                                  Text(
+                                      "Uraian Kecelakaan: ${snapshot.data.documents[index].data["${FirebaseKeys.FB_REPORT_URAIAN_KECELAKAAN}"]}"),
+                                  Container(
+                                    margin: EdgeInsets.all(20),
+                                    alignment: Alignment.centerLeft,
+                                    height: 200,
+                                    width: 200,
+                                    child: Utility.imageFromBase64String(snapshot.data.documents[index].data["${FirebaseKeys.FB_REPORT_FILE_KECELAKAAN}"]),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
-                        /*Expanded(
-                          flex: 1,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: <Widget>[
-                              FlatButton(
-                                color: Colors.redAccent,
-                                child: Text('Setuju',style: TextStyle(color: Colors.white),),
-                                onPressed: (){},
-                              ),
-                              FlatButton(
-                                color: Colors.red,
-                                child: Text('Tolak',style: TextStyle(color: Colors.white),),
-                                onPressed: (){},
-                              ),
-                            ],
-                          ),
-                        )*/
-                      ],
+                      ]),
                     ),
                   ],
                 ),
@@ -127,34 +198,33 @@ class _ItemAccidentState
       );
 
   Widget buildTextField(String title, {bool isDisable = true}) => Container(
-        child: TextFormField(
-          keyboardType: TextInputType.multiline,
-          maxLines: null,
-          maxLength: null,
-          enabled: isDisable,
-          decoration: new InputDecoration(
-            labelText: title,
-            labelStyle: TextStyle(color: Colors.black),
-            hintStyle: TextStyle(color: Colors.black),
-            fillColor: Colors.red,
-            focusedBorder: OutlineInputBorder(
-              borderSide:
-                  BorderSide(color: Colors.redAccent, width: 1),
-            ),
-            disabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey, width: 1),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey, width: 1),
-            ),
-            /*suffixIcon: IconButton(
+    child: TextFormField(
+      keyboardType: TextInputType.multiline,
+      maxLines: null,
+      maxLength: null,
+      enabled: isDisable,
+      decoration: new InputDecoration(
+        labelText: title,
+        labelStyle: TextStyle(color: Colors.black),
+        hintStyle: TextStyle(color: Colors.black),
+        fillColor: Colors.red,
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.redAccent, width: 1),
+        ),
+        disabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey, width: 1),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey, width: 1),
+        ),
+        /*suffixIcon: IconButton(
                             icon: Icon(Icons.search,color: Colors.redAccent,),
                             onPressed: () {}
                         ),*/
-            //fillColor: Colors.green
-          ),
-        ),
-      );
+        //fillColor: Colors.green
+      ),
+    ),
+  );
 
   Widget _buildApprovalDialog(BuildContext context /*, int index*/) {
     return StatefulBuilder(builder: (context, setState) {
@@ -252,9 +322,7 @@ class _ItemAccidentState
                       ),
                     ],
                   )),
-              onTap: () {
-
-              },
+              onTap: () {},
             ),
             InkWell(
               child: Container(
@@ -311,8 +379,7 @@ class _ItemAccidentState
                       ),
                     ],
                   )),
-              onTap: () {
-              },
+              onTap: () {},
             ),
             InkWell(
               child: Container(

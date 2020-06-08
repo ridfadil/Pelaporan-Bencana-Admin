@@ -47,8 +47,14 @@ dev_dependencies:
   image_picker: 0.6.0+10
   cloud_firestore: ^0.13.6
   expandable: ^4.1.4
-
+  flutter_launcher_icons: ^0.7.3
   cupertino_icons: ^0.1.2
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path_android: "assets/images/logo_pelaporan.jpg"
+  image_path_ios: "assets/images/logo_pelaporan.jpg"
 
 
 # For information on the generic Dart part of this file, see the
@@ -58,6 +64,7 @@ dev_dependencies:
 flutter:
   assets:
     - assets/images/report.png
+    - assets/images/logo_pelaporan.jpg
 
   fonts:
     - family: Montserrat

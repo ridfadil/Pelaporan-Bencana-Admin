@@ -11,12 +11,12 @@ class _LIstAccidentReportState extends State<LIstAccidentReport> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("History Laporan Saya",style: TextStyle(color: Colors.white),),
+        title: Text("History Laporan User",style: TextStyle(color: Colors.white),),
         backgroundColor: Colors.redAccent,
       ),
       body: Stack(
         children: <Widget>[
-          Container(
+          /*Container(
             margin: EdgeInsets.only(top: 10,left: 10,right: 10),
             child: Row(
               children: <Widget>[
@@ -49,9 +49,9 @@ class _LIstAccidentReportState extends State<LIstAccidentReport> {
                 ),
               ],
             ),
-          ),
+          ),*/
           Container(
-              margin: EdgeInsets.only(top: 70),
+              margin: EdgeInsets.only(top: 10),
               child: ItemAccident()),
         ],
       ),

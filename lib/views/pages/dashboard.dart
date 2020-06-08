@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:pelaporanbencanaadmin/session/session.dart';
 import 'package:pelaporanbencanaadmin/utils/helper/DialogUtils.dart';
 import 'package:pelaporanbencanaadmin/utils/values/dimens.dart';
 import 'package:pelaporanbencanaadmin/views/pages/about.dart';
@@ -9,14 +10,59 @@ import 'package:pelaporanbencanaadmin/views/pages/list_accident_report.dart';
 import 'package:pelaporanbencanaadmin/views/pages/list_user.dart';
 import 'package:pelaporanbencanaadmin/views/pages/user_profile.dart';
 
-class Dashboard extends StatelessWidget {
+class Dashboard extends StatefulWidget {
+  @override
+  _DashboardState createState() => _DashboardState();
+}
+
+class _DashboardState extends State<Dashboard> {
   List<String> imageLinks = [
     'https://rush.house.gov/sites/rush.house.gov/files/featured_image/Ambulance-Diversion-is-Medical-Negligence-.jpeg',
     'https://awsimages.detik.net.id/community/media/visual/2020/04/09/65e1aaf3-e324-46ab-b13b-518de9783187.jpeg?w=700&q=80',
     'https://awsimages.detik.net.id/community/media/visual/2020/04/10/c61fd42f-6514-4a60-8b97-b1b27812ffac_169.jpeg?w=700&q=90'
   ];
 
+  TextEditingController namaUser = new TextEditingController();
+  TextEditingController emailUser = new TextEditingController();
+
   Size deviceSize;
+  String userId;
+
+  @override
+  void initState() {
+    getNama().then((namaValue) {
+      setState(() {
+        namaUser.text = namaValue;
+        //CommonUtils.showToast("NAMA : "+namaUser.text);
+      });
+    });
+
+    getEmail().then((emailValue) {
+      setState(() {
+        emailUser.text = emailValue;
+        //CommonUtils.showToast("EMAIL : "+emailUser.text);
+      });
+    });
+
+    getUserId().then((userIdDoc) {
+      setState(() {
+        userId = userIdDoc;
+        //CommonUtils.showToast("EMAIL : "+emailUser.text);
+      });
+    });
+    super.initState();
+  }
+
+  Future <String> getNama() async {
+    return await Session.getName();
+  }
+
+  Future <String> getEmail() async {
+    return await Session.getMail();
+  }
+  Future <String> getUserId() async {
+    return await Session.getUserId();
+  }
 
   Widget appBarColumn(BuildContext context) => SafeArea(
         child: Padding(
@@ -38,12 +84,10 @@ class Dashboard extends StatelessWidget {
                   ),
                   Column(
                     children: <Widget>[
-                      Text(
-                        "Dede Muktamar",
+                      Text(namaUser.text.toString(),
                         style: TextStyle(color: Colors.white, fontSize: 18),
                       ),
-                      Text(
-                        "Dede@email.com",
+                      Text(emailUser.text.toString(),
                         style: TextStyle(color: Colors.white, fontSize: 14),
                       ),
                     ],

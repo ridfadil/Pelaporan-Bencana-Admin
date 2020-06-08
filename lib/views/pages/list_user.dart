@@ -17,7 +17,7 @@ class _ListUserState extends State<ListUser> {
       ),
       body: Stack(
         children: <Widget>[
-          Container(
+          /*Container(
             margin: EdgeInsets.only(top: 10,left: 10,right: 10),
             child: Row(
               children: <Widget>[
@@ -50,9 +50,9 @@ class _ListUserState extends State<ListUser> {
                 ),
               ],
             ),
-          ),
+          ),*/
           Container(
-              margin: EdgeInsets.only(top: 70),
+              margin: EdgeInsets.only(top: 10),
               child: ItemUser()),
         ],
       ),
