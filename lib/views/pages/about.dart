@@ -43,7 +43,7 @@ class _AboutState extends State<About> {
                     height: 12,
                   ),
                   Text(
-                      "Skripsi XXXXXXXXX",
+                      "Skripsi : Aplikasi Lapor Berbasis Android di Kecamatan Ciwaru",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.black, fontSize: 14)),
@@ -57,11 +57,11 @@ class _AboutState extends State<About> {
                   SizedBox(
                     height: 12,
                   ),
-                  Text(
+                 /* Text(
                       "Moto Hidup : Hiduplah seperti larry",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          color: Colors.black, fontSize: 14)),
+                          color: Colors.black, fontSize: 14)),*/
                   SizedBox(
                     height: 20,
                   ),
@@ -75,7 +75,7 @@ class _AboutState extends State<About> {
                         size: 30,
                         color: Colors.black,
                       ),
-                      Text("(021) 2700400",
+                      Text("089509917676",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               color: Colors.black,

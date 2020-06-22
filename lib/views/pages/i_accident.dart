@@ -117,7 +117,7 @@ class _ItemAccidentState extends State<ItemAccident> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  Text("Jenis Kecelakaan   : ${snapshot.data.documents[index].data["${FirebaseKeys.FB_REPORT_JENIS_KECELAKAAN}"]}"),
+                                  Text("Jenis Bencana   : ${snapshot.data.documents[index].data["${FirebaseKeys.FB_REPORT_JENIS_KECELAKAAN}"]}"),
                                   Text("Nama Pelapor : " +
                                       snapshot.data.documents[index].data[
                                       '${FirebaseKeys.FB_USER_NAMA}']),
@@ -160,16 +160,16 @@ class _ItemAccidentState extends State<ItemAccident> {
                                       '${FirebaseKeys.FB_USER_NO_TELP}']),
                                   SizedBox(height: 2),
                                   Text(
-                                      "Jenis Kecelakaan   : ${snapshot.data.documents[index].data["${FirebaseKeys.FB_REPORT_JENIS_KECELAKAAN}"]}"),
+                                      "Jenis Bencana   : ${snapshot.data.documents[index].data["${FirebaseKeys.FB_REPORT_JENIS_KECELAKAAN}"]}"),
                                   SizedBox(height: 2),
                                   Text(
                                       "Tanggal : ${snapshot.data.documents[index].data["${FirebaseKeys.FB_REPORT_DATE_KECELAKAAN}"]}"),
                                   SizedBox(height: 2),
                                   Text(
-                                      "Waktu Kecelakaan: ${snapshot.data.documents[index].data["${FirebaseKeys.FB_REPORT_TIME_KECELAKAAN}"]}"),
+                                      "Waktu Bencana: ${snapshot.data.documents[index].data["${FirebaseKeys.FB_REPORT_TIME_KECELAKAAN}"]}"),
                                   SizedBox(height: 2),
                                   Text(
-                                      "Uraian Kecelakaan: ${snapshot.data.documents[index].data["${FirebaseKeys.FB_REPORT_URAIAN_KECELAKAAN}"]}"),
+                                      "Uraian Bencana: ${snapshot.data.documents[index].data["${FirebaseKeys.FB_REPORT_URAIAN_KECELAKAAN}"]}"),
                                   Container(
                                     margin: EdgeInsets.all(20),
                                     alignment: Alignment.centerLeft,

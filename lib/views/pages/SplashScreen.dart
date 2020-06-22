@@ -93,7 +93,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                         "Aplikasi Pelaporan",
                         style: TextStyle(fontSize: 20.0, color: color),
                       ),Text(
-                        "Kecelakaan",
+                        "Bencana",
                         style: TextStyle(fontSize: 20.0, color: color),
                       ),
                     ],
@@ -148,11 +148,8 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   Hero buildLogo() {
     return new Hero(
         tag: "Logo",
-        child: Icon(
-            FontAwesomeIcons.carCrash,
-          size: 50,
-          color: Colors.redAccent,
-        ));
+        child: Image.asset("assets/images/logo_pelaporan.png"),
+    );
   }
 
   Widget get _animatedButtonUI => InkWell(

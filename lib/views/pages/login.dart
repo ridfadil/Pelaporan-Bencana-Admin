@@ -116,7 +116,7 @@ class _LoginUserState extends State<LoginUser> {
                       ),
                       Center(
                         child: Text(
-                          "Admin Pelaporan Kecelakaan",
+                          "Admin Pelaporan Bencana",
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w700,
@@ -293,8 +293,6 @@ class _LoginUserState extends State<LoginUser> {
     return new Hero(
         tag: "Logo",
         child: Container(
-            child: new Image.asset(
-              'assets/images/report.png',
-            )));
+            child: Image.asset("assets/images/logo_pelaporan.png"),));
   }
 }

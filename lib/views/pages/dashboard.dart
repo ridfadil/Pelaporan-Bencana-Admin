@@ -17,9 +17,9 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   List<String> imageLinks = [
-    'https://rush.house.gov/sites/rush.house.gov/files/featured_image/Ambulance-Diversion-is-Medical-Negligence-.jpeg',
-    'https://awsimages.detik.net.id/community/media/visual/2020/04/09/65e1aaf3-e324-46ab-b13b-518de9783187.jpeg?w=700&q=80',
-    'https://awsimages.detik.net.id/community/media/visual/2020/04/10/c61fd42f-6514-4a60-8b97-b1b27812ffac_169.jpeg?w=700&q=90'
+    'https://cdn-image.bisnis.com/posts/2019/06/10/932449/antarafoto-jalan-trans-sulawesi-putus-kendari-10062019-jojon2-1.jpg',
+    'https://cdn-image.bisnis.com/posts/2019/01/14/878200/antarafoto-badan-jalan-aceh-tengah-longsor-080119-apls-1-1.jpg',
+    'https://apahabar.com/wp-content/uploads/2018/12/ilustrasi-tanah-longsor.jpg'
   ];
 
   TextEditingController namaUser = new TextEditingController();
@@ -153,12 +153,11 @@ class _DashboardState extends State<Dashboard> {
                           children: <Widget>[
                             Container(
                                 margin: EdgeInsets.only(right: 10),
-                                child: Icon(
-                                  FontAwesomeIcons.carCrash,
-                                  size: 18,
-                                  color: Colors.redAccent,
-                                )),
-                            Text("Pelaporan Kecelakaan",
+                                child: Container(
+                                    margin: EdgeInsets.only(right: 10),
+                                    child: Image.asset("assets/images/logo_pelaporan.png",scale: 20,)
+                                ),),
+                            Text("Pelaporan Bencana",
                                 style: TextStyle(
                                     fontSize: MyDimens.textMedium,
                                     color: Colors.redAccent,
@@ -215,14 +214,14 @@ class _DashboardState extends State<Dashboard> {
                                   child: Column(
                                     children: <Widget>[
                                       Icon(
-                                        FontAwesomeIcons.carCrash,
+                                        Icons.warning,
                                         size: 40.0,
                                         color: Colors.orange,
                                       ),
                                       Container(
                                           margin: EdgeInsets.only(top: 10),
                                           child: Text(
-                                            "Daftar pelaporan kecelakaan",
+                                            "Daftar pelaporan Bencana",
                                             textAlign: TextAlign.center,
                                           )),
                                     ],
