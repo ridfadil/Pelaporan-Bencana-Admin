@@ -14,6 +14,7 @@ class _UserProfileState extends State<UserProfile> {
   String userID;
 
   TextEditingController nama = new TextEditingController();
+  TextEditingController nik = new TextEditingController();
   TextEditingController alamat = new TextEditingController();
   TextEditingController email = new TextEditingController();
   TextEditingController telp = new TextEditingController();
@@ -32,7 +33,7 @@ class _UserProfileState extends State<UserProfile> {
       appBar: AppBar(
         backgroundColor: Colors.redAccent,
         title: Text(
-          "Profile Pelapor",
+          "Profil Admin",
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -92,6 +93,7 @@ class _UserProfileState extends State<UserProfile> {
         .then((DocumentSnapshot ds) {
       setState(() {
         nama.text = ds.data['nama'];
+        nik.text = ds.data['nik'];
         email.text = ds.data['email'];
         telp.text = ds.data['telp'];
         alamat.text = ds.data['alamat'];
@@ -137,6 +139,8 @@ class _UserProfileState extends State<UserProfile> {
   void _updateData(){
     if(nama.text.isEmpty){
       CommonUtils.showToast("Nama tidak boleh kosong");
+    }else if(nik.text.isEmpty){
+      CommonUtils.showToast("NIK tidak boleh kosong");
     }else if(email.text.isEmpty){
       CommonUtils.showToast("Email tidak boleh kosong");
     } else if(telp.text.isEmpty){
@@ -148,6 +152,7 @@ class _UserProfileState extends State<UserProfile> {
           .document(userID)
           .updateData({
         '${FirebaseKeys.FB_USER_NAMA}': '${nama.text.toString()}',
+        '${FirebaseKeys.FB_USER_NIK}': '${nik.text.toString()}',
         '${FirebaseKeys.FB_USER_ALAMAT}': '${alamat.text.toString()}',
         '${FirebaseKeys.FB_USER_EMAIL}': '${email.text.toString()}',
         '${FirebaseKeys.FB_USER_NO_TELP}': '${telp.text.toString()}',

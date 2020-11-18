@@ -39,7 +39,7 @@ class _ItemAccidentState extends State<ItemAccident> {
           if (snapshot.hasError) return new Text('Error: ${snapshot.error}');
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:
-              return new Text('Loading...');
+              return Center(child: new Text('Loading...'));
             default:
               return Container(
                 margin: EdgeInsets.only(bottom: 10),
@@ -93,17 +93,22 @@ class _ItemAccidentState extends State<ItemAccident> {
                     ExpandablePanel(
                       header: Container(
                           margin: EdgeInsets.all(10),
-                          child: Row(
+                          child: Column(
                             children: <Widget>[
-                              Text("Nomor ${index + 1}",
+                              Text("Laporan Nomor ${index + 1}",
                                   style: TextStyle(
-                                      fontSize: 12,
+                                      fontSize: 16,
                                       fontWeight: FontWeight.bold)),
+                              Container(
+                                margin: EdgeInsets.only(top: 10,bottom: 10),
+                                width: double.infinity,
+                                height: 1,
+                                color: Colors.grey,
+                              )
                             ],
                           )),
                       tapHeaderToExpand: true,
                       hasIcon: true,
-                      // <-- Dri
                       iconColor: Colors.redAccent,
                       collapsed: ExpandableButton(
                         child: Row(
@@ -117,14 +122,12 @@ class _ItemAccidentState extends State<ItemAccident> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  Text("Jenis Bencana   : ${snapshot.data.documents[index].data["${FirebaseKeys.FB_REPORT_JENIS_KECELAKAAN}"]}"),
-                                  Text("Nama Pelapor : " +
-                                      snapshot.data.documents[index].data[
-                                      '${FirebaseKeys.FB_USER_NAMA}']),
-                                  SizedBox(height: 2),
-                                  Text("Alamat Pelapor : " +
-                                      snapshot.data.documents[index].data[
-                                      '${FirebaseKeys.FB_USER_ALAMAT}']),
+                                  BuildText("Nama Pelapor",snapshot.data.documents[index].data['${FirebaseKeys.FB_USER_NAMA}']),
+                                  SizedBox(height: 4),
+                                  BuildText("Jenis Bencana",snapshot.data.documents[index].data['${FirebaseKeys.FB_REPORT_JENIS_KECELAKAAN}']),
+                                  SizedBox(height: 4),
+                                  BuildText("Tanggal Bencana",snapshot.data.documents[index].data['${FirebaseKeys.FB_REPORT_DATE_KECELAKAAN}']),
+                                  SizedBox(height: 4),
                                 ],
                               ),
                             ),
@@ -143,33 +146,30 @@ class _ItemAccidentState extends State<ItemAccident> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  Text("Nama Pelapor : " +
-                                      snapshot.data.documents[index].data[
-                                      '${FirebaseKeys.FB_USER_NAMA}']),
-                                  SizedBox(height: 2),
-                                  Text("Alamat Pelapor : " +
-                                      snapshot.data.documents[index].data[
-                                      '${FirebaseKeys.FB_USER_ALAMAT}']),
-                                  SizedBox(height: 2),
-                                  Text("Email : " +
-                                      snapshot.data.documents[index].data[
-                                      '${FirebaseKeys.FB_USER_EMAIL}']),
-                                  SizedBox(height: 2),
-                                  Text("No Hp : " +
-                                      snapshot.data.documents[index].data[
-                                      '${FirebaseKeys.FB_USER_NO_TELP}']),
-                                  SizedBox(height: 2),
-                                  Text(
-                                      "Jenis Bencana   : ${snapshot.data.documents[index].data["${FirebaseKeys.FB_REPORT_JENIS_KECELAKAAN}"]}"),
-                                  SizedBox(height: 2),
-                                  Text(
-                                      "Tanggal : ${snapshot.data.documents[index].data["${FirebaseKeys.FB_REPORT_DATE_KECELAKAAN}"]}"),
-                                  SizedBox(height: 2),
-                                  Text(
-                                      "Waktu Bencana: ${snapshot.data.documents[index].data["${FirebaseKeys.FB_REPORT_TIME_KECELAKAAN}"]}"),
-                                  SizedBox(height: 2),
-                                  Text(
-                                      "Uraian Bencana: ${snapshot.data.documents[index].data["${FirebaseKeys.FB_REPORT_URAIAN_KECELAKAAN}"]}"),
+                                  BuildText("Nama Pelapor",snapshot.data.documents[index].data['${FirebaseKeys.FB_USER_NAMA}']),
+                                  SizedBox(height: 4),
+                                  BuildText("NIK",snapshot.data.documents[index].data['${FirebaseKeys.FB_USER_NIK}']),
+                                  SizedBox(height: 4),
+                                  BuildText("Alamat Pelapor ",snapshot.data.documents[index].data['${FirebaseKeys.FB_USER_ALAMAT}']),
+                                  SizedBox(height: 4),
+                                  BuildText("Email",snapshot.data.documents[index].data['${FirebaseKeys.FB_USER_EMAIL}']),
+                                  SizedBox(height: 4),
+                                  BuildText("No Hp",snapshot.data.documents[index].data['${FirebaseKeys.FB_USER_NO_TELP}']),
+                                  SizedBox(height: 4),
+                                  BuildText("Jenis Bencana",snapshot.data.documents[index].data['${FirebaseKeys.FB_REPORT_JENIS_KECELAKAAN}']),
+                                  SizedBox(height: 4),
+                                  BuildText("Tanggal Bencana",snapshot.data.documents[index].data['${FirebaseKeys.FB_REPORT_DATE_KECELAKAAN}']),
+                                  SizedBox(height: 4),
+                                  BuildText("Waktu Bencana",snapshot.data.documents[index].data['${FirebaseKeys.FB_REPORT_TIME_KECELAKAAN}']),
+                                  SizedBox(height: 4),
+                                  BuildText("Uraian Bencana",snapshot.data.documents[index].data['${FirebaseKeys.FB_REPORT_URAIAN_KECELAKAAN}']),
+                                  SizedBox(height: 10),
+                                  Row(
+                                    children: <Widget>[
+                                      Icon(Icons.image,color: Colors.redAccent,),
+                                      Text("Rincian Gambar : ",textAlign: TextAlign.right,style: TextStyle(fontWeight: FontWeight.bold),),
+                                    ],
+                                  ),
                                   Container(
                                     margin: EdgeInsets.all(20),
                                     alignment: Alignment.centerLeft,
@@ -196,6 +196,20 @@ class _ItemAccidentState extends State<ItemAccident> {
           ],
         ),
       );
+
+  Widget BuildText(String title,String value){
+    return Row(
+      children: <Widget>[
+        Expanded(
+            flex: 1,
+            child: Text(title,textAlign: TextAlign.left,style: TextStyle(fontWeight: FontWeight.bold),)),
+        SizedBox(width: 4),
+        Expanded(
+            flex: 1,
+            child: Text("$value",textAlign: TextAlign.right,)),
+      ],
+    );
+  }
 
   Widget buildTextField(String title, {bool isDisable = true}) => Container(
     child: TextFormField(

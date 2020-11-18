@@ -78,8 +78,7 @@ class _LoginUserState extends State<LoginUser> {
                   width: double.infinity,
                   height: 300,
                   decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          colors: [Color(0x22ff3a5a), Color(0x22fe494d)])),
+                      color: Color(0x22fe494d)),
                 ),
               ),
               ClipPath(
@@ -89,8 +88,7 @@ class _LoginUserState extends State<LoginUser> {
                   width: double.infinity,
                   height: 300,
                   decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          colors: [Color(0x44ff3a5a), Color(0x44fe494d)])),
+                      color: Color(0x22fe494d)),
                 ),
               ),
               ClipPath(
@@ -128,8 +126,7 @@ class _LoginUserState extends State<LoginUser> {
                   width: double.infinity,
                   height: 300,
                   decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          colors: [ MyColor.badgeColor, Colors.blue])),
+                      color: Color(0x22fe494d)),
                 ),
               ),
             ],

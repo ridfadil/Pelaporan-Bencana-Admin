@@ -18,7 +18,7 @@ class _DetailAccidentState extends State<DetailAccident> {
     generaelModel = widget.generaelModel;
     super.initState();
   }
-
+/// ini untuk''
   @override
   Widget build(BuildContext context) {
     return Scaffold(

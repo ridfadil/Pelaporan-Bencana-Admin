@@ -17,8 +17,8 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   List<String> imageLinks = [
-    'https://cdn-image.bisnis.com/posts/2019/06/10/932449/antarafoto-jalan-trans-sulawesi-putus-kendari-10062019-jojon2-1.jpg',
-    'https://cdn-image.bisnis.com/posts/2019/01/14/878200/antarafoto-badan-jalan-aceh-tengah-longsor-080119-apls-1-1.jpg',
+    'https://anteroaceh.com/files/images/20200320-kebakaran-bireuen.jpeg',
+    'https://foto.kontan.co.id/lgi22dHZkTu1i_CW2P-oBF7FvcM=/smart/2020/01/01/172715042p.jpg',
     'https://apahabar.com/wp-content/uploads/2018/12/ilustrasi-tanah-longsor.jpg'
   ];
 

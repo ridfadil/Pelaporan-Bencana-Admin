@@ -49,6 +49,7 @@ dev_dependencies:
   expandable: ^4.1.4
   flutter_launcher_icons: ^0.7.3
   cupertino_icons: ^0.1.2
+  dcdg: ^2.0.1
 
 flutter_icons:
   android: true

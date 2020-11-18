@@ -12,7 +12,7 @@ class _AboutState extends State<About> {
       appBar: AppBar(
         backgroundColor: Colors.redAccent,
         title: Text(
-          "Profile Saya",
+          "Tentang Aplikasi",
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -43,12 +43,29 @@ class _AboutState extends State<About> {
                     height: 12,
                   ),
                   Text(
-                      "Skripsi : Aplikasi Lapor Berbasis Android di Kecamatan Ciwaru",
+                      "Skripsi : Aplikasi lapor berbasis android di badan penanggulangan bencana daerah kab.kuningan",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.black, fontSize: 14)),
                   SizedBox(
-                    height: 12,
+                    height: 10,
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 10,bottom: 10),
+                    width: double.infinity,
+                    height: 1,
+                    color: Colors.grey,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                      "Aplikasi ini di adalah suatu fasilitas bagi masyarakat untuk melaporkan suatu kejadian bencana di sekitar masyarakat agar dapat di tindak lanjut secara cepat dan tanggap oleh badan penanggulangan bencana daerah kabupaten kuningan",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Colors.black, fontSize: 14)),
+                  SizedBox(
+                    height: 20,
                   ),
                   Text("Jurusan : Teknik Informatika",
                       textAlign: TextAlign.center,
@@ -57,14 +74,6 @@ class _AboutState extends State<About> {
                   SizedBox(
                     height: 12,
                   ),
-                 /* Text(
-                      "Moto Hidup : Hiduplah seperti larry",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: Colors.black, fontSize: 14)),*/
-                  SizedBox(
-                    height: 20,
-                  ),
                   Row(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -72,8 +81,11 @@ class _AboutState extends State<About> {
                     children: <Widget>[
                       Icon(
                         Icons.phone,
-                        size: 30,
+                        size: 20,
                         color: Colors.black,
+                      ),
+                      SizedBox(
+                        width: 5,
                       ),
                       Text("089509917676",
                           textAlign: TextAlign.center,

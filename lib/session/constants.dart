@@ -26,6 +26,7 @@ class FirebaseKeys {
   static const String FB_USER_EMAIL = "email";
   static const String FB_USER_PASSWORD = "password";
   static const String FB_USER_ROLE = "role";
+  static const String FB_USER_NIK = "nik";
 
 
   static const String FB_REPORT_ID_USER = "id_user_pelapor";

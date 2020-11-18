@@ -34,7 +34,7 @@ class _ItemUserState extends State<ItemUser> {
             return new Text('Error: ${snapshot.error}');
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:
-              return new Text('Loading...');
+              return Center(child: new Text('Loading...'));
             default:
               return Container(
                 margin: EdgeInsets.only(bottom: 10),
@@ -45,7 +45,7 @@ class _ItemUserState extends State<ItemUser> {
                   physics: const AlwaysScrollableScrollPhysics(),
                   itemBuilder: (BuildContext context, int index) {
                     return InkWell(
-                      child: makeList(index, context, snapshot),
+                      child: snapshot.data.documents[index].data['${FirebaseKeys.FB_USER_ROLE}'] =="1"? Container(): makeList(index, context, snapshot),
                       onTap: () {
                         /*Navigator.push(
                               context,
@@ -104,8 +104,7 @@ class _ItemUserState extends State<ItemUser> {
                           margin: EdgeInsets.all(10),
                           child: Row(
                             children: <Widget>[
-                              Text("Nomor ${index + 1}",
-                                  style: TextStyle(
+                              Text("", style: TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.bold)),
                             ],
@@ -126,15 +125,10 @@ class _ItemUserState extends State<ItemUser> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  Text("Nama : " +
-                                      snapshot.data.documents[index]
-                                          .data['${FirebaseKeys
-                                          .FB_USER_NAMA}']),
-                                  SizedBox(height: 2),
-                                  Text("Alamat : " +
-                                      snapshot.data.documents[index]
-                                          .data['${FirebaseKeys
-                                          .FB_USER_ALAMAT}']),
+                                  BuildText("Nama",snapshot.data.documents[index].data['${FirebaseKeys.FB_USER_NAMA}']),
+                                  SizedBox(height: 4),
+                                  BuildText("NIK",snapshot.data.documents[index].data['${FirebaseKeys.FB_USER_NIK}']),
+                                  SizedBox(height: 4),
                                 ],
                               ),
                             ),
@@ -155,25 +149,16 @@ class _ItemUserState extends State<ItemUser> {
                                     crossAxisAlignment: CrossAxisAlignment
                                         .start,
                                     children: <Widget>[
-                                      Text("Nama : " +
-                                          snapshot.data.documents[index]
-                                              .data['${FirebaseKeys
-                                              .FB_USER_NAMA}']),
-                                      SizedBox(height: 2),
-                                      Text("Alamat : " +
-                                          snapshot.data.documents[index]
-                                              .data['${FirebaseKeys
-                                              .FB_USER_ALAMAT}']),
-                                      SizedBox(height: 2),
-                                      Text("Email : " +
-                                          snapshot.data.documents[index]
-                                              .data['${FirebaseKeys
-                                              .FB_USER_EMAIL}']),
-                                      SizedBox(height: 2),
-                                      Text("No Hp : " +
-                                          snapshot.data.documents[index]
-                                              .data['${FirebaseKeys
-                                              .FB_USER_NO_TELP}']),
+                                      BuildText("Nama",snapshot.data.documents[index].data['${FirebaseKeys.FB_USER_NAMA}']),
+                                      SizedBox(height: 4),
+                                      BuildText("NIK",snapshot.data.documents[index].data['${FirebaseKeys.FB_USER_NIK}']),
+                                      SizedBox(height: 4),
+                                      BuildText("Alamat ",snapshot.data.documents[index].data['${FirebaseKeys.FB_USER_ALAMAT}']),
+                                      SizedBox(height: 4),
+                                      BuildText("Email",snapshot.data.documents[index].data['${FirebaseKeys.FB_USER_EMAIL}']),
+                                      SizedBox(height: 4),
+                                      BuildText("No Hp",snapshot.data.documents[index].data['${FirebaseKeys.FB_USER_NO_TELP}']),
+                                      SizedBox(height: 4),
                                       InkWell(
                                         child: Container(
                                           color: Colors.redAccent,
@@ -214,6 +199,20 @@ class _ItemUserState extends State<ItemUser> {
           ],
         ),
       );
+
+  Widget BuildText(String title,String value){
+    return Row(
+      children: <Widget>[
+        Expanded(
+            flex: 1,
+            child: Text(title,textAlign: TextAlign.left,style: TextStyle(fontWeight: FontWeight.bold),)),
+        SizedBox(width: 4),
+        Expanded(
+            flex: 1,
+            child: Text("$value",textAlign: TextAlign.right,)),
+      ],
+    );
+  }
 
   Widget buildTextField(String title, {bool isDisable = true}) =>
       Container(
